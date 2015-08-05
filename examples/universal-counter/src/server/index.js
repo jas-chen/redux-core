@@ -30,8 +30,8 @@ app.get('/', function (req, res) {
     (err) => { throw new Error(err); },
     () => {
       console.log('state$ completed.');
-      const intent$ = {};
-      const view = React.renderToString(<Counter state={finalState} intent$={intent$}/>);
+      const fakeIntent$ = {};
+      const view = React.renderToString(<Counter state={finalState} intent$={fakeIntent$}/>);
       res.send(render(view, finalState));
     }
   );
