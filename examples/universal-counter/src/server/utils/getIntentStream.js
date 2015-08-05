@@ -1,20 +1,21 @@
 import Rx from 'rx';
-import list from '../../shared/IntentCreatorList';
+import list from '../../shared/intents/CounterIntentList';
 
-// Transform action ids to action
-export default function getActionStream(query) {
-  const actions = [];
+// Transform intent ids to intent function
+export default function getIntentStream(intentIds) {
+  const intents = [];
 
-  if(query.action) {
-    query.action.split('').forEach(id => {
-      const actionCreator = list[id];
+  if (intentIds) {
+    intentIds.split('').forEach(id => {
+      const intentCreator = list[id];
 
       // in case user modify query string to invalid id like '11asdasdas'
-      if( typeof actionCreator === 'function') {
-        actions.push(actionCreator());
+      if (intentCreator) {
+        const intent = intentCreator();
+        intents.push(intent);
       }
     });
   }
 
-  return Rx.Observable.from(actions);
+  return Rx.Observable.from(intents);
 }

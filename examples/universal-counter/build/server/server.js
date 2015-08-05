@@ -83,10 +83,12 @@
 	
 	// main
 	app.get('/', function (req, res) {
-	  console.log('\n\nReceive request with query string: ' + req.query.action);
+	  var intentIds = req.query.intentId;
+	
+	  console.log('\n\nReceive request with intent ids: ' + intentIds);
 	
 	  var store = _reduxCore.createStore(_shared.reducer);
-	  var intent$ = _utilsGetIntentStream2['default'](req.query);
+	  var intent$ = _utilsGetIntentStream2['default'](intentIds);
 	  var action$ = _shared.applyRxMiddleware(intent$, store);
 	  var state$ = action$.map(store.dispatch).startWith(store.getState());
 	
@@ -126,7 +128,7 @@
 	'use strict';
 	
 	exports.__esModule = true;
-	exports['default'] = getActionStream;
+	exports['default'] = getIntentStream;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -134,27 +136,28 @@
 	
 	var _rx2 = _interopRequireDefault(_rx);
 	
-	var _sharedIntentCreatorList = __webpack_require__(/*! ../../shared/IntentCreatorList */ 5);
+	var _sharedIntentsCounterIntentList = __webpack_require__(/*! ../../shared/intents/CounterIntentList */ 23);
 	
-	// Transform action ids to action
+	// Transform intent ids to intent function
 	
-	var _sharedIntentCreatorList2 = _interopRequireDefault(_sharedIntentCreatorList);
+	var _sharedIntentsCounterIntentList2 = _interopRequireDefault(_sharedIntentsCounterIntentList);
 	
-	function getActionStream(query) {
-	  var actions = [];
+	function getIntentStream(intentIds) {
+	  var intents = [];
 	
-	  if (query.action) {
-	    query.action.split('').forEach(function (id) {
-	      var actionCreator = _sharedIntentCreatorList2['default'][id];
+	  if (intentIds) {
+	    intentIds.split('').forEach(function (id) {
+	      var intentCreator = _sharedIntentsCounterIntentList2['default'][id];
 	
 	      // in case user modify query string to invalid id like '11asdasdas'
-	      if (typeof actionCreator === 'function') {
-	        actions.push(actionCreator());
+	      if (intentCreator) {
+	        var intent = intentCreator();
+	        intents.push(intent);
 	      }
 	    });
 	  }
 	
-	  return _rx2['default'].Observable.from(actions);
+	  return _rx2['default'].Observable.from(intents);
 	}
 	
 	module.exports = exports['default'];
@@ -511,28 +514,7 @@
 	module.exports = require("rx-lite");
 
 /***/ },
-/* 5 */
-/*!*****************************************!*\
-  !*** ./src/shared/IntentCreatorList.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-	
-	var _intentsCounterIntents = __webpack_require__(/*! ./intents/CounterIntents */ 6);
-	
-	var CounterIntents = _interopRequireWildcard(_intentsCounterIntents);
-	
-	var list = [CounterIntents.increment, CounterIntents.decrement, CounterIntents.incrementIfOdd, CounterIntents.incrementTimeout, CounterIntents.incrementPromise];
-	
-	exports['default'] = list;
-	module.exports = exports['default'];
-
-/***/ },
+/* 5 */,
 /* 6 */
 /*!**********************************************!*\
   !*** ./src/shared/intents/CounterIntents.js ***!
@@ -554,12 +536,13 @@
 	
 	function setQueryString(creatorId) {
 	  if (isBrowser) {
-	    var base = window.location.search.length ? window.location.search : '?action=';
+	    var base = window.location.search.length ? window.location.search : '?intentId=';
 	    window.history.replaceState(null, null, base + creatorId);
 	  }
 	}
 	
 	function increment() {
+	  // index of this function in `CounterIntentList`
 	  setQueryString(0);
 	
 	  return {
@@ -817,7 +800,11 @@
 	    var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 	
 	    return keys.reduce(function (result, key) {
-	      result[key] = finalReducers[key](state[key], action);
+	      var reducer = finalReducers[key];
+	      var reducerState = state[key];
+	
+	      result[key] = reducer(reducerState, action);
+	
 	      return result;
 	    }, {});
 	  };
@@ -857,9 +844,9 @@
 	
 	var _reduxCore = __webpack_require__(/*! redux-core */ 10);
 	
-	var _reducers = __webpack_require__(/*! ./reducers */ 18);
+	var _reducersCounter = __webpack_require__(/*! ./reducers/counter */ 19);
 	
-	var reducers = _interopRequireWildcard(_reducers);
+	var reducers = _interopRequireWildcard(_reducersCounter);
 	
 	var middleware = [_rxMiddlewareThunkMiddleware2['default'], _rxMiddlewarePromiseMiddleware2['default'], _rxMiddlewareDelayMiddleware2['default']];
 	
@@ -973,23 +960,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 18 */
-/*!**************************************!*\
-  !*** ./src/shared/reducers/index.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
-	
-	var _counter = __webpack_require__(/*! ./counter */ 19);
-	
-	exports.counter = _interopRequire(_counter);
-
-/***/ },
+/* 18 */,
 /* 19 */
 /*!****************************************!*\
   !*** ./src/shared/reducers/counter.js ***!
@@ -999,7 +970,7 @@
 	'use strict';
 	
 	exports.__esModule = true;
-	exports['default'] = counter;
+	exports.counter = counter;
 	
 	var _constantsIntentTypes = __webpack_require__(/*! ../constants/IntentTypes */ 7);
 	
@@ -1016,8 +987,6 @@
 	      return state;
 	  }
 	}
-	
-	module.exports = exports['default'];
 
 /***/ },
 /* 20 */
@@ -1076,7 +1045,7 @@
 	    _Component.apply(this, arguments);
 	  }
 	
-	  Counter.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+	  Counter.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
 	    return nextProps.state.counter !== this.props.state.counter;
 	  };
 	
@@ -1150,6 +1119,28 @@
 /***/ function(module, exports) {
 
 	module.exports = require("react");
+
+/***/ },
+/* 23 */
+/*!*************************************************!*\
+  !*** ./src/shared/intents/CounterIntentList.js ***!
+  \*************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+	
+	var _CounterIntents = __webpack_require__(/*! ./CounterIntents */ 6);
+	
+	var CounterIntents = _interopRequireWildcard(_CounterIntents);
+	
+	var list = [CounterIntents.increment, CounterIntents.decrement, CounterIntents.incrementIfOdd, CounterIntents.incrementTimeout, CounterIntents.incrementPromise];
+	
+	exports['default'] = list;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

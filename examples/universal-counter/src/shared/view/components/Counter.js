@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import * as CounterIntents from '../../intents/CounterIntents';
 
 class Counter extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     return nextProps.state.counter !== this.props.state.counter;
   }
 

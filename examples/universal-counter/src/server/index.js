@@ -11,10 +11,12 @@ var app = express();
 
 // main
 app.get('/', function (req, res) {
-  console.log('\n\nReceive request with query string: ' + req.query.action);
+  const intentIds = req.query.intentId;
+
+  console.log('\n\nReceive request with intent ids: ' + intentIds);
 
   const store = createStore(reducer);
-  const intent$ = getIntentStream(req.query);
+  const intent$ = getIntentStream(intentIds);
   const action$ = applyRxMiddleware(intent$, store);
   const state$ = action$.map(store.dispatch).startWith(store.getState());
 

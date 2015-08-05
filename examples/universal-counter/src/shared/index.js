@@ -4,7 +4,7 @@ import delayMiddleware from './rx-middleware/delayMiddleware';
 import { DUMMY_ACTION } from './constants/IntentTypes';
 
 import {combineReducers} from 'redux-core';
-import * as reducers from './reducers';
+import * as reducers from './reducers/counter';
 
 const middleware = [thunkMiddleware, promiseMiddleware, delayMiddleware];
 

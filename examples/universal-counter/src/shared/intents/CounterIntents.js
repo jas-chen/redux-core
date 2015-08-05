@@ -4,12 +4,13 @@ const isBrowser = typeof window !== 'undefined';
 
 function setQueryString(creatorId) {
   if(isBrowser) {
-    const base = window.location.search.length ? window.location.search : '?action=';
+    const base = window.location.search.length ? window.location.search : '?intentId=';
     window.history.replaceState(null, null, base + creatorId);
   }
 }
 
 export function increment() {
+  // index of this function in `CounterIntentList`
   setQueryString(0);
 
   return {

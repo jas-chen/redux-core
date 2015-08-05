@@ -1,4 +1,4 @@
-import * as CounterIntents from './intents/CounterIntents';
+import * as CounterIntents from './CounterIntents';
 
 const list = [
   CounterIntents.increment,

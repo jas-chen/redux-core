@@ -27438,7 +27438,11 @@
 	    var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 	
 	    return keys.reduce(function (result, key) {
-	      result[key] = finalReducers[key](state[key], action);
+	      var reducer = finalReducers[key];
+	      var reducerState = state[key];
+	
+	      result[key] = reducer(reducerState, action);
+	
 	      return result;
 	    }, {});
 	  };
@@ -27478,9 +27482,9 @@
 	
 	var _reduxCore = __webpack_require__(/*! redux-core */ 160);
 	
-	var _reducers = __webpack_require__(/*! ./reducers */ 169);
+	var _reducersCounter = __webpack_require__(/*! ./reducers/counter */ 170);
 	
-	var reducers = _interopRequireWildcard(_reducers);
+	var reducers = _interopRequireWildcard(_reducersCounter);
 	
 	var middleware = [_rxMiddlewareThunkMiddleware2['default'], _rxMiddlewarePromiseMiddleware2['default'], _rxMiddlewareDelayMiddleware2['default']];
 	
@@ -27613,23 +27617,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 169 */
-/*!**************************************!*\
-  !*** ./src/shared/reducers/index.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
-	
-	var _counter = __webpack_require__(/*! ./counter */ 170);
-	
-	exports.counter = _interopRequire(_counter);
-
-/***/ },
+/* 169 */,
 /* 170 */
 /*!****************************************!*\
   !*** ./src/shared/reducers/counter.js ***!
@@ -27639,7 +27627,7 @@
 	'use strict';
 	
 	exports.__esModule = true;
-	exports['default'] = counter;
+	exports.counter = counter;
 	
 	var _constantsIntentTypes = __webpack_require__(/*! ../constants/IntentTypes */ 165);
 	
@@ -27656,8 +27644,6 @@
 	      return state;
 	  }
 	}
-	
-	module.exports = exports['default'];
 
 /***/ },
 /* 171 */
@@ -27695,7 +27681,7 @@
 	    _Component.apply(this, arguments);
 	  }
 	
-	  Counter.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+	  Counter.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
 	    return nextProps.state.counter !== this.props.state.counter;
 	  };
 	
@@ -27783,12 +27769,13 @@
 	
 	function setQueryString(creatorId) {
 	  if (isBrowser) {
-	    var base = window.location.search.length ? window.location.search : '?action=';
+	    var base = window.location.search.length ? window.location.search : '?intentId=';
 	    window.history.replaceState(null, null, base + creatorId);
 	  }
 	}
 	
 	function increment() {
+	  // index of this function in `CounterIntentList`
 	  setQueryString(0);
 	
 	  return {
