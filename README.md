@@ -1,3 +1,5 @@
+[![npm version](https://img.shields.io/npm/v/redux-core.svg?style=flat-square)](https://www.npmjs.com/package/redux-core)
+
 redux-core
 ==========
 
