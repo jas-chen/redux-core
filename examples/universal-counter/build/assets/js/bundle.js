@@ -63,7 +63,7 @@
 	
 	var _shared = __webpack_require__(/*! ../shared */ 164);
 	
-	var _sharedViewComponentsCounter = __webpack_require__(/*! ../shared/view/components/Counter */ 171);
+	var _sharedViewComponentsCounter = __webpack_require__(/*! ../shared/view/components/Counter */ 170);
 	
 	var _sharedViewComponentsCounter2 = _interopRequireDefault(_sharedViewComponentsCounter);
 	
@@ -27285,9 +27285,9 @@
 
 /***/ },
 /* 160 */
-/*!*************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/index.js ***!
-  \*************************************************/
+/*!***********************************!*\
+  !*** ./~/redux-core/lib/index.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27312,9 +27312,9 @@
 
 /***/ },
 /* 161 */
-/*!*******************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/createStore.js ***!
-  \*******************************************************/
+/*!*****************************************!*\
+  !*** ./~/redux-core/lib/createStore.js ***!
+  \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27367,9 +27367,9 @@
 
 /***/ },
 /* 162 */
-/*!***************************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/utils/isPlainObject.js ***!
-  \***************************************************************/
+/*!*************************************************!*\
+  !*** ./~/redux-core/lib/utils/isPlainObject.js ***!
+  \*************************************************/
 /***/ function(module, exports) {
 
 	/*
@@ -27409,9 +27409,9 @@
 
 /***/ },
 /* 163 */
-/*!*****************************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/utils/combineReducers.js ***!
-  \*****************************************************************/
+/*!***************************************************!*\
+  !*** ./~/redux-core/lib/utils/combineReducers.js ***!
+  \***************************************************/
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27438,11 +27438,7 @@
 	    var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 	
 	    return keys.reduce(function (result, key) {
-	      var reducer = finalReducers[key];
-	      var reducerState = state[key];
-	
-	      result[key] = reducer(reducerState, action);
-	
+	      result[key] = finalReducers[key](state[key], action);
 	      return result;
 	    }, {});
 	  };
@@ -27482,7 +27478,7 @@
 	
 	var _reduxCore = __webpack_require__(/*! redux-core */ 160);
 	
-	var _reducersCounter = __webpack_require__(/*! ./reducers/counter */ 170);
+	var _reducersCounter = __webpack_require__(/*! ./reducers/counter */ 169);
 	
 	var reducers = _interopRequireWildcard(_reducersCounter);
 	
@@ -27617,8 +27613,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 169 */,
-/* 170 */
+/* 169 */
 /*!****************************************!*\
   !*** ./src/shared/reducers/counter.js ***!
   \****************************************/
@@ -27646,7 +27641,7 @@
 	}
 
 /***/ },
-/* 171 */
+/* 170 */
 /*!***********************************************!*\
   !*** ./src/shared/view/components/Counter.js ***!
   \***********************************************/
@@ -27668,7 +27663,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _intentsCounterIntents = __webpack_require__(/*! ../../intents/CounterIntents */ 172);
+	var _intentsCounterIntents = __webpack_require__(/*! ../../intents/CounterIntents */ 171);
 	
 	var CounterIntents = _interopRequireWildcard(_intentsCounterIntents);
 	
@@ -27748,7 +27743,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 172 */
+/* 171 */
 /*!**********************************************!*\
   !*** ./src/shared/intents/CounterIntents.js ***!
   \**********************************************/

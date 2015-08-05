@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rimraf build",
     "start": "npm run build & npm run server",
-    "build": "webpack -d --progress --watch",
+    "build": "webpack -d --progress",
+    "watch": "webpack -d --progress --watch",
     "server": "nodemon --watch build/server ./build/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +21,7 @@
     "json-loader": "^0.5.2",
     "nodemon": "^1.4.0",
     "react": "^0.13.3",
+    "redux-core": "^0.1.0",
     "rimraf": "^2.4.2",
     "rx-lite": "^2.5.2",
     "rx-lite-joinpatterns": "^2.5.2",

@@ -4,9 +4,9 @@ Universal Counter Demo
 redux-core + React + RxJS
 
 ```
-npm install
 cd examples/universal-counter
 npm install
-npm start
+npm run build
+npm run server
 open http://localhost:3000
 ```

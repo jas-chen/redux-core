@@ -55,8 +55,7 @@ var client = {
   },
   resolve: {
     alias: {
-      'rx': 'rx-lite-joinpatterns',
-      'redux-core': path.join(__dirname, '..', '..', 'src')
+      'rx': 'rx-lite-joinpatterns'
     },
     extensions: ['', '.js']
   },

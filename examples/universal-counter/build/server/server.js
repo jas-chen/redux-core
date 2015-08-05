@@ -61,21 +61,21 @@
 	
 	var _reduxCore = __webpack_require__(/*! redux-core */ 10);
 	
-	var _shared = __webpack_require__(/*! ../shared */ 14);
+	var _shared = __webpack_require__(/*! ../shared */ 11);
 	
 	var _utilsGetIntentStream = __webpack_require__(/*! ./utils/getIntentStream */ 1);
 	
 	var _utilsGetIntentStream2 = _interopRequireDefault(_utilsGetIntentStream);
 	
-	var _utilsRender = __webpack_require__(/*! ./utils/render */ 20);
+	var _utilsRender = __webpack_require__(/*! ./utils/render */ 16);
 	
 	var _utilsRender2 = _interopRequireDefault(_utilsRender);
 	
-	var _sharedViewComponentsCounter = __webpack_require__(/*! ../shared/view/components/Counter */ 21);
+	var _sharedViewComponentsCounter = __webpack_require__(/*! ../shared/view/components/Counter */ 17);
 	
 	var _sharedViewComponentsCounter2 = _interopRequireDefault(_sharedViewComponentsCounter);
 	
-	var _react = __webpack_require__(/*! react */ 22);
+	var _react = __webpack_require__(/*! react */ 18);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
@@ -136,7 +136,7 @@
 	
 	var _rx2 = _interopRequireDefault(_rx);
 	
-	var _sharedIntentsCounterIntentList = __webpack_require__(/*! ../../shared/intents/CounterIntentList */ 23);
+	var _sharedIntentsCounterIntentList = __webpack_require__(/*! ../../shared/intents/CounterIntentList */ 5);
 	
 	// Transform intent ids to intent function
 	
@@ -514,7 +514,28 @@
 	module.exports = require("rx-lite");
 
 /***/ },
-/* 5 */,
+/* 5 */
+/*!*************************************************!*\
+  !*** ./src/shared/intents/CounterIntentList.js ***!
+  \*************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+	
+	var _CounterIntents = __webpack_require__(/*! ./CounterIntents */ 6);
+	
+	var CounterIntents = _interopRequireWildcard(_CounterIntents);
+	
+	var list = [CounterIntents.increment, CounterIntents.decrement, CounterIntents.incrementIfOdd, CounterIntents.incrementTimeout, CounterIntents.incrementPromise];
+	
+	exports['default'] = list;
+	module.exports = exports['default'];
+
+/***/ },
 /* 6 */
 /*!**********************************************!*\
   !*** ./src/shared/intents/CounterIntents.js ***!
@@ -647,173 +668,15 @@
 
 /***/ },
 /* 10 */
-/*!*************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/index.js ***!
-  \*************************************************/
-/***/ function(module, exports, __webpack_require__) {
+/*!*****************************!*\
+  !*** external "redux-core" ***!
+  \*****************************/
+/***/ function(module, exports) {
 
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _createStore = __webpack_require__(/*! ./createStore */ 11);
-	
-	var _createStore2 = _interopRequireDefault(_createStore);
-	
-	var _utilsCombineReducers = __webpack_require__(/*! ./utils/combineReducers */ 13);
-	
-	var _utilsCombineReducers2 = _interopRequireDefault(_utilsCombineReducers);
-	
-	exports['default'] = {
-	  createStore: _createStore2['default'],
-	  combineReducers: _utilsCombineReducers2['default']
-	};
-	module.exports = exports['default'];
+	module.exports = require("redux-core");
 
 /***/ },
 /* 11 */
-/*!*******************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/createStore.js ***!
-  \*******************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	exports['default'] = createStore;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _utilsIsPlainObject = __webpack_require__(/*! ./utils/isPlainObject */ 12);
-	
-	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
-	
-	function createStore(reducer, initState) {
-	  if (typeof reducer !== 'function') {
-	    throw new Error('Expected the reducer to be a function.');
-	  }
-	
-	  var initAction = { type: '@@redux-core/INIT_' + new Date().getTime() };
-	  var currentReducer = reducer;
-	  var state = currentReducer(initState, initAction);
-	
-	  function dispatch(action) {
-	    if (!_utilsIsPlainObject2['default'](action)) {
-	      throw new Error('Action must be a plain object.');
-	    }
-	
-	    state = currentReducer(state, action);
-	    return state;
-	  }
-	
-	  function replaceReducer(newReducer) {
-	    currentReducer = newReducer;
-	    dispatch(initAction);
-	  }
-	
-	  return {
-	    getState: function getState() {
-	      return state;
-	    },
-	    dispatch: dispatch,
-	    getReducer: function getReducer() {
-	      return currentReducer;
-	    },
-	    replaceReducer: replaceReducer
-	  };
-	}
-	
-	module.exports = exports['default'];
-
-/***/ },
-/* 12 */
-/*!***************************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/utils/isPlainObject.js ***!
-  \***************************************************************/
-/***/ function(module, exports) {
-
-	/*
-	 https://github.com/gaearon/redux/blob/breaking-changes-1.0/src/utils/isPlainObject.js
-	 */
-	
-	'use strict';
-	
-	exports.__esModule = true;
-	exports['default'] = isPlainObject;
-	function fnToString(fn) {
-	  return Function.prototype.toString.call(fn);
-	}
-	
-	/**
-	 * @param {any} obj The object to inspect.
-	 * @returns {boolean} True if the argument appears to be a plain object.
-	 */
-	
-	function isPlainObject(obj) {
-	  if (!obj || typeof obj !== 'object') {
-	    return false;
-	  }
-	
-	  var proto = typeof obj.constructor === 'function' ? Object.getPrototypeOf(obj) : Object.prototype;
-	
-	  if (proto === null) {
-	    return true;
-	  }
-	
-	  var constructor = proto.constructor;
-	
-	  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === fnToString(Object);
-	}
-	
-	module.exports = exports['default'];
-
-/***/ },
-/* 13 */
-/*!*****************************************************************!*\
-  !*** /Users/jas/GitHub/redux-core/src/utils/combineReducers.js ***!
-  \*****************************************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	exports['default'] = combineReducers;
-	function pickReducer(reducers) {
-	  return Object.keys(reducers).reduce(function (result, key) {
-	    var reducer = reducers[key];
-	    if (typeof reducer === 'function') {
-	      result[key] = reducer;
-	    }
-	
-	    return result;
-	  }, {});
-	}
-	
-	function combineReducers(reducers) {
-	  var finalReducers = pickReducer(reducers);
-	  var keys = Object.keys(finalReducers);
-	
-	  return function () {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-	    var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
-	
-	    return keys.reduce(function (result, key) {
-	      var reducer = finalReducers[key];
-	      var reducerState = state[key];
-	
-	      result[key] = reducer(reducerState, action);
-	
-	      return result;
-	    }, {});
-	  };
-	}
-	
-	module.exports = exports['default'];
-
-/***/ },
-/* 14 */
 /*!*****************************!*\
   !*** ./src/shared/index.js ***!
   \*****************************/
@@ -828,15 +691,15 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _rxMiddlewareThunkMiddleware = __webpack_require__(/*! ./rx-middleware/thunkMiddleware */ 15);
+	var _rxMiddlewareThunkMiddleware = __webpack_require__(/*! ./rx-middleware/thunkMiddleware */ 12);
 	
 	var _rxMiddlewareThunkMiddleware2 = _interopRequireDefault(_rxMiddlewareThunkMiddleware);
 	
-	var _rxMiddlewarePromiseMiddleware = __webpack_require__(/*! ./rx-middleware/promiseMiddleware */ 16);
+	var _rxMiddlewarePromiseMiddleware = __webpack_require__(/*! ./rx-middleware/promiseMiddleware */ 13);
 	
 	var _rxMiddlewarePromiseMiddleware2 = _interopRequireDefault(_rxMiddlewarePromiseMiddleware);
 	
-	var _rxMiddlewareDelayMiddleware = __webpack_require__(/*! ./rx-middleware/delayMiddleware */ 17);
+	var _rxMiddlewareDelayMiddleware = __webpack_require__(/*! ./rx-middleware/delayMiddleware */ 14);
 	
 	var _rxMiddlewareDelayMiddleware2 = _interopRequireDefault(_rxMiddlewareDelayMiddleware);
 	
@@ -844,7 +707,7 @@
 	
 	var _reduxCore = __webpack_require__(/*! redux-core */ 10);
 	
-	var _reducersCounter = __webpack_require__(/*! ./reducers/counter */ 19);
+	var _reducersCounter = __webpack_require__(/*! ./reducers/counter */ 15);
 	
 	var reducers = _interopRequireWildcard(_reducersCounter);
 	
@@ -864,7 +727,7 @@
 	exports.reducer = reducer;
 
 /***/ },
-/* 15 */
+/* 12 */
 /*!*****************************************************!*\
   !*** ./src/shared/rx-middleware/thunkMiddleware.js ***!
   \*****************************************************/
@@ -894,7 +757,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 16 */
+/* 13 */
 /*!*******************************************************!*\
   !*** ./src/shared/rx-middleware/promiseMiddleware.js ***!
   \*******************************************************/
@@ -928,7 +791,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 17 */
+/* 14 */
 /*!*****************************************************!*\
   !*** ./src/shared/rx-middleware/delayMiddleware.js ***!
   \*****************************************************/
@@ -960,8 +823,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 18 */,
-/* 19 */
+/* 15 */
 /*!****************************************!*\
   !*** ./src/shared/reducers/counter.js ***!
   \****************************************/
@@ -989,7 +851,7 @@
 	}
 
 /***/ },
-/* 20 */
+/* 16 */
 /*!************************************!*\
   !*** ./src/server/utils/render.js ***!
   \************************************/
@@ -1010,7 +872,7 @@
 	// const index = fs.readFileSync('./src/server/index.html', {encoding: 'utf-8'});
 
 /***/ },
-/* 21 */
+/* 17 */
 /*!***********************************************!*\
   !*** ./src/shared/view/components/Counter.js ***!
   \***********************************************/
@@ -1028,7 +890,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _react = __webpack_require__(/*! react */ 22);
+	var _react = __webpack_require__(/*! react */ 18);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
@@ -1112,35 +974,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 22 */
+/* 18 */
 /*!************************!*\
   !*** external "react" ***!
   \************************/
 /***/ function(module, exports) {
 
 	module.exports = require("react");
-
-/***/ },
-/* 23 */
-/*!*************************************************!*\
-  !*** ./src/shared/intents/CounterIntentList.js ***!
-  \*************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-	
-	var _CounterIntents = __webpack_require__(/*! ./CounterIntents */ 6);
-	
-	var CounterIntents = _interopRequireWildcard(_CounterIntents);
-	
-	var list = [CounterIntents.increment, CounterIntents.decrement, CounterIntents.incrementIfOdd, CounterIntents.incrementTimeout, CounterIntents.incrementPromise];
-	
-	exports['default'] = list;
-	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
