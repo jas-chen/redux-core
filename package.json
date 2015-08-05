@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "build:lib": "babel src --out-dir lib",
-    "build:umd": "webpack src/index.js dist/rx-redux.js --display-modules --progress && NODE_ENV=production webpack src/index.js dist/rx-redux.min.js --display-modules --progress",
+    "build:umd": "webpack src/index.js dist/redux-core.js --display-modules --progress && NODE_ENV=production webpack src/index.js dist/redux-core.min.js --display-modules --progress",
     "build": "npm run build:lib && npm run build:umd",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
