@@ -1,2 +1,7 @@
 src
 examples
+.idea
+.babelrc
+.eslintrc
+.npmignore
+webpack.config.js
