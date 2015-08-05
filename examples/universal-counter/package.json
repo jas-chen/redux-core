@@ -21,7 +21,7 @@
     "json-loader": "^0.5.2",
     "nodemon": "^1.4.0",
     "react": "^0.13.3",
-    "redux-core": "^0.1.0",
+    "redux-core": "^0.1.1",
     "rimraf": "^2.4.2",
     "rx-lite": "^2.5.2",
     "rx-lite-joinpatterns": "^2.5.2",
