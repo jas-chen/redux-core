@@ -2,16 +2,16 @@ import { INCREMENT_COUNTER, DECREMENT_COUNTER, INCREMENT_DELAY, DUMMY_ACTION } f
 
 const isBrowser = typeof window !== 'undefined';
 
-function setQueryString(creatorId) {
+function appendIntentId(intentId) {
   if(isBrowser) {
     const base = window.location.search.length ? window.location.search : '?intentId=';
-    window.history.replaceState(null, null, base + creatorId);
+    window.history.replaceState(null, null, base + intentId);
   }
 }
 
 export function increment() {
   // index of this function in `CounterIntentList`
-  setQueryString(0);
+  appendIntentId(0);
 
   return {
     type: INCREMENT_COUNTER
@@ -19,7 +19,7 @@ export function increment() {
 }
 
 export function decrement() {
-  setQueryString(1);
+  appendIntentId(1);
 
   return {
     type: DECREMENT_COUNTER
@@ -27,7 +27,7 @@ export function decrement() {
 }
 
 export function incrementIfOdd() {
-  setQueryString(2);
+  appendIntentId(2);
 
   return (getState) => {
     const { counter } = getState();
@@ -45,7 +45,7 @@ export function incrementIfOdd() {
 }
 
 export function incrementTimeout() {
-  setQueryString(3);
+  appendIntentId(3);
 
   return {
     type: INCREMENT_DELAY,
@@ -59,7 +59,7 @@ export function incrementTimeout() {
 }
 
 export function incrementPromise() {
-  setQueryString(4);
+  appendIntentId(4);
 
   function getRandomTime() { return Math.floor(Math.random()*10%5)*100+800; }
 

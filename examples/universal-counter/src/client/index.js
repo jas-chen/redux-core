@@ -6,7 +6,7 @@ import Counter from '../shared/view/components/Counter';
 
 const root = document.getElementById('root');
 
-const store = window.__state ? createStore(reducer, window.__state): createStore(reducer);
+const store = createStore(reducer, window.__state);
 
 const intent$ = new Rx.Subject();
 const action$ = applyRxMiddleware(intent$, store);

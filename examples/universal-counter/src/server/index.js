@@ -7,6 +7,16 @@ import render from './utils/render';
 import Counter from '../shared/view/components/Counter';
 import React from 'react';
 
+const isProdMode = process.env.NODE_ENV === 'production';
+const isDevMode = !isProdMode;
+
+if (isProdMode) {
+  console.info('Mode: Production');
+}
+else {
+  console.info('Mode: Development');
+}
+
 var app = express();
 
 // main
@@ -24,12 +34,18 @@ app.get('/', function (req, res) {
 
   state$.subscribe(
     (state) => {
-      console.log(state);
+      if (isDevMode) {
+        console.log(state);
+      }
+
       finalState = state;
     },
     (err) => { throw new Error(err); },
     () => {
-      console.log('state$ completed.');
+      if (isDevMode) {
+        console.log('state$ completed.');
+      }
+
       const fakeIntent$ = {};
       const view = React.renderToString(<Counter state={finalState} intent$={fakeIntent$}/>);
       res.send(render(view, finalState));
