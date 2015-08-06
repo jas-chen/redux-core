@@ -1,26 +1,18 @@
 import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/IntentTypes';
+import list from './CounterIntentList.js';
+import appendIntentId from '../utils/appendIntentId';
 import Rx from 'rx';
-
-const isBrowser = typeof window !== 'undefined';
-
-function appendIntentId(intentId) {
-  if(isBrowser) {
-    const base = window.location.search.length ? window.location.search : '?intentId=';
-    window.history.replaceState(null, null, base + intentId);
-  }
-}
 
 const incrementAction = { type: INCREMENT_COUNTER };
 
 export function increment() {
-  // index of this function in `CounterIntentList`
-  appendIntentId(0);
+  appendIntentId(list.indexOf(increment));
 
   return incrementAction;
 }
 
 export function decrement() {
-  appendIntentId(1);
+  appendIntentId(list.indexOf(decrement));
 
   return {
     type: DECREMENT_COUNTER
@@ -28,7 +20,7 @@ export function decrement() {
 }
 
 export function incrementIfOdd() {
-  appendIntentId(2);
+  appendIntentId(list.indexOf(incrementIfOdd));
 
   return (getState) => {
     const { counter } = getState();
@@ -42,13 +34,13 @@ export function incrementIfOdd() {
 }
 
 export function incrementTimeout() {
-  appendIntentId(3);
+  appendIntentId(list.indexOf(incrementTimeout));
 
   return Rx.Observable.just(incrementAction).delay(1000);
 }
 
 export function incrementPromise() {
-  appendIntentId(4);
+  appendIntentId(list.indexOf(incrementPromise));
 
   function getRandomTime() { return Math.floor(Math.random()*10%5)*100+800; }
 
