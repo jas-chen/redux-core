@@ -55,8 +55,9 @@ app.get('/', function (req, res) {
 
 });
 
-// static path for browser to get bundle.js
-app.use('/assets', express.static(path.join('.', 'build', 'assets')));
+// static path
+app.use('/assets/js', express.static(path.join('.', 'build', 'assets', 'js')));
+app.use('/assets', express.static(path.join('.', 'assets')));
 
 app.get('*', function (req, res) {
   res.status(404).end('404 - Page Not Found');

@@ -9,11 +9,7 @@ export default function (view, state) {
 <head>
   <meta charset="UTF-8">
   <title>redux-core universal counter</title>
-  <style>
-    button {
-      margin: 0 4px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
 </head>
 <body>
 <h1>Universal counter demo with redux-core</h1>
