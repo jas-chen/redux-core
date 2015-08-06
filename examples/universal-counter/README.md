@@ -14,8 +14,7 @@ cd examples/universal-counter
 npm install
 
 # Production mode
-npm run build-server
-npm run build-client
+npm run build
 npm run server
 open http://localhost:3000
 

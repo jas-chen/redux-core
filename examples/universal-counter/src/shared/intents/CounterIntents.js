@@ -1,4 +1,5 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER, INCREMENT_DELAY, DUMMY_ACTION } from '../constants/IntentTypes';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/IntentTypes';
+import Rx from 'rx';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -9,13 +10,13 @@ function appendIntentId(intentId) {
   }
 }
 
+const incrementAction = { type: INCREMENT_COUNTER };
+
 export function increment() {
   // index of this function in `CounterIntentList`
   appendIntentId(0);
 
-  return {
-    type: INCREMENT_COUNTER
-  };
+  return incrementAction;
 }
 
 export function decrement() {
@@ -33,29 +34,17 @@ export function incrementIfOdd() {
     const { counter } = getState();
 
     if (counter % 2 === 0) {
-      return {
-        type: DUMMY_ACTION
-      };
+      return Rx.Observable.empty();
     }
 
-    return {
-      type: INCREMENT_COUNTER
-    };
+    return incrementAction;
   };
 }
 
 export function incrementTimeout() {
   appendIntentId(3);
 
-  return {
-    type: INCREMENT_DELAY,
-    payload: {
-      action: {
-        type: INCREMENT_COUNTER
-      },
-      time: 1000
-    }
-  };
+  return Rx.Observable.just(incrementAction).delay(1000);
 }
 
 export function incrementPromise() {
@@ -63,11 +52,11 @@ export function incrementPromise() {
 
   function getRandomTime() { return Math.floor(Math.random()*10%5)*100+800; }
 
-  return new Promise((resolve) => {
+  const promise = new Promise((resolve) => {
     setTimeout(() => {
-      resolve({
-        type: INCREMENT_COUNTER
-      });
+      resolve(incrementAction);
     }, getRandomTime());
   });
+
+  return Rx.Observable.fromPromise(promise);
 }

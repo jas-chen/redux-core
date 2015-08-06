@@ -7,12 +7,11 @@
     "clean": "rimraf build",
     "start": "npm run build & npm run server",
 
-    "build-server": "NODE_ENV=production webpack -p --config webpack.config.server.js --devtool source-map --output-pathinfo --progress --display-modules",
-    "build-client": "NODE_ENV=production webpack --config webpack.config.client.js --devtool source-map --output-pathinfo --progress --display-modules",
+    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --devtool source-map --progress --display-modules",
     "server": "NODE_ENV=production node ./build/server/server.js",
 
-    "build-server-watch": "webpack --config -d webpack.config.server.js --progress --watch",
-    "build-client-watch": "webpack-dev-server --config webpack.config.client.js --inline --colors",
+    "build-server-watch": "webpack -d --config ./webpack/webpack.config.server.js --watch",
+    "build-client-watch": "node ./webpack/dev-server.js",
     "dev": "nodemon ./build/server/server.js --watch build/server",
 
     "test": "echo \"Error: no test specified\" && exit 1"
