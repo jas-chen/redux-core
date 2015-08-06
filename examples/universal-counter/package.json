@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf build",
-    "start": "npm run build & npm run server",
 
     "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --devtool source-map --progress --display-modules",
-    "server": "NODE_ENV=production node ./build/server/server.js",
+    "start": "NODE_ENV=production node ./build/server/server.js",
 
     "build-server-watch": "webpack -d --config ./webpack/webpack.config.server.js --watch",
     "build-client-watch": "node ./webpack/dev-server.js",
