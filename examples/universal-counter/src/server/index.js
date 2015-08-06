@@ -63,5 +63,5 @@ app.get('*', function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log('Listening on port 3000, root: ' + path.dirname(require.main.filename));
+  console.log('Listening on port 3000, root: ' + path.resolve('.'));
 });
