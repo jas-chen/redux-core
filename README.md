@@ -3,7 +3,7 @@
 redux-core
 ==========
 
-Minimal redux.
+Minimal [redux](https://github.com/gaearon/redux).
 
 ## Why?
 - Only ~60 lines of code to read, easy to understand and customize.
